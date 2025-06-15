@@ -1,0 +1,35 @@
+import requests
+
+# アプリケーションID（e-Statから取得したものに差し替えてください）
+APP_ID = "ここに自分のアプリケーションIDを書く"
+
+# APIのURLエンドポイント
+API_URL = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
+
+# 取得するデータ「労働力調査（基本集計）」のうち、完全失業率（年平均）です。
+# statsDataId は以下のサイトから探す：https://www.e-stat.go.jp/api/api-info/e-stat-manual3-0
+#  "0003280886" を使用（総務省：労働力調査の一部）
+
+# パラメータの設定
+params = {
+    "appId": APP_ID,                         # アプリケーションID
+    "statsDataId": "0003280886",            # 労働力調査 基本集計（総務省）2022年
+    "cdCat01": "000110",                    # 完全失業率（年平均）
+    "metaGetFlg": "Y",                      # メタ情報も取得
+    "cntGetFlg": "N",                       # 件数のみ取得しない
+    "explanationGetFlg": "Y",               # 統計の説明も取得
+    "annotationGetFlg": "Y",                # 備考も取得
+    "sectionHeaderFlg": "1",                # セクションヘッダー表示
+    "replaceSpChars": "0",                  # 特殊文字はそのまま
+    "lang": "J"                             # 日本語で出力
+}
+
+# APIリクエストを送信
+response = requests.get(API_URL, params=params)
+
+# レスポンスをJSON形式で取得
+data = response.json()
+
+# データ全体を出力
+import json
+print(json.dumps(data, ensure_ascii=False, indent=2))
