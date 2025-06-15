@@ -1,0 +1,21 @@
+import requests
+import json
+
+APP_ID = "ここに自分のアプリケーションIDを書く"
+API_URL = "https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
+
+params = {
+    "appId": APP_ID,
+    "statsDataId": "0003109750",  
+    "metaGetFlg": "Y",
+    "cntGetFlg": "N",
+    "explanationGetFlg": "Y",
+    "annotationGetFlg": "Y",
+    "sectionHeaderFlg": "1",
+    "replaceSpChars": "0",
+    "lang": "J"
+}
+
+response = requests.get(API_URL, params=params)
+data = response.json()
+print(json.dumps(data, indent=2, ensure_ascii=False))
